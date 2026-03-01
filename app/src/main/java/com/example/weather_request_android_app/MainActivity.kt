@@ -15,39 +15,39 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.weather_request_android_app.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MyApplicationTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    GreetingScreen()
-                }
-            }
-        }
-    }
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setContent {
+			MyApplicationTheme {
+				Surface(
+					modifier = Modifier.fillMaxSize(),
+					color = MaterialTheme.colorScheme.background
+				) {
+					GreetingScreen()
+				}
+			}
+		}
+	}
 }
 
 @Composable
 fun GreetingScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Hello World!",
-            style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-    }
+	Box(
+		modifier = Modifier.fillMaxSize(),
+		contentAlignment = Alignment.Center
+	) {
+		Text(
+			text = "Hello World!",
+			style = MaterialTheme.typography.headlineLarge,
+			color = MaterialTheme.colorScheme.onBackground
+		)
+	}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    MyApplicationTheme {
-        GreetingScreen()
-    }
+	MyApplicationTheme {
+		GreetingScreen()
+	}
 }
