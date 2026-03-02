@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.weather_request_android_app.ui.theme.Comment
+
 @Composable
 fun AboutDialog(
     onDismiss: () -> Unit
@@ -46,7 +46,8 @@ fun AboutDialog(
                 Text(
                     text = "About Weather App",
                     style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     ),
                     textAlign = TextAlign.Center
                 )
@@ -57,7 +58,9 @@ fun AboutDialog(
                             "• Platform: Android\n" +
                             "• Built with: Kotlin & Compose\n\n" +
                             "© 2026",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
                     textAlign = TextAlign.Start,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -67,11 +70,11 @@ fun AboutDialog(
                     modifier = Modifier
                 ) {
                     Text(
-						"Got It",
+                        "Got It",
                         style = MaterialTheme.typography.bodyMedium.copy(
-                            color = Comment
+                            color = MaterialTheme.colorScheme.onSurface
                         )
-					)
+                    )
                 }
             }
         }

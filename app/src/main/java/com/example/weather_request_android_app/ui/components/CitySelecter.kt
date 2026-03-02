@@ -30,6 +30,11 @@ fun CitySelector(
     modifier: Modifier = Modifier
 ) {
     var inputText by remember { mutableStateOf(initialCity) }
+
+    LaunchedEffect(initialCity) {
+        inputText = initialCity
+    }
+
     var isExpanded by remember { mutableStateOf(false) }
     var hasFocus by remember { mutableStateOf(false) }
     val allCities = Constants.POPULAR_CITIES
@@ -79,7 +84,6 @@ fun CitySelector(
                         isExpanded = false
                     }
                 },
-            singleLine = true
         )
 
         if (isExpanded && filteredCities.isNotEmpty()) {
@@ -88,7 +92,7 @@ fun CitySelector(
                     .fillMaxWidth()
                     .padding(top = 8.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     contentColor = MaterialTheme.colorScheme.onSurface
                 ),
                 shape = RoundedCornerShape(12.dp),
@@ -154,5 +158,5 @@ fun CitySelector(
 }
 
 private fun formatCityNameForUrl(name: String): String {
-    return name.trim().lowercase()
+    return name.trim().lowercase().replace(" ", "-")
 }

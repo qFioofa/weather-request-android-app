@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.weather_request_android_app.ui.theme.Comment
 @Composable
 fun WeatherForm(
     selectedCity: String,
@@ -76,7 +75,7 @@ fun WeatherForm(
                 Text(
                     "Open Weather Forecast",
                     style = MaterialTheme.typography.bodyMedium.copy(
-                        color = Comment
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 )
             }

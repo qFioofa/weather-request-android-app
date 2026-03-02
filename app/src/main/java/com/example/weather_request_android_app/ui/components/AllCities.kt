@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.weather_request_android_app.utils.Constants
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -28,6 +29,8 @@ fun AllCities(
 ) {
     val allCities = Constants.POPULAR_CITIES.map { it.name }
     var expanded by remember { mutableStateOf(false) }
+    var selectedCityMessage by remember { mutableStateOf<String?>(null) }
+    val scope = rememberCoroutineScope()
 
     Card(
         modifier = modifier
@@ -41,14 +44,17 @@ fun AllCities(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
-            modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier
+                .padding(20.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "All Cities",
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -56,18 +62,41 @@ fun AllCities(
             Button(
                 onClick = { expanded = !expanded },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
                 Text(if (expanded) "Hide Cities" else "Show All Cities")
+            }
+
+            AnimatedVisibility(
+                visible = selectedCityMessage != null,
+                enter = fadeIn(animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)),
+                exit = fadeOut(animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing))
+            ) {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(
+                        text = "Выбран: ${selectedCityMessage ?: ""}",
+                        modifier = Modifier.padding(12.dp),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
 
             if (expanded) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = 300.dp)
+                        .heightIn(max = 300.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(allCities) { cityName ->
                         ListItem(
@@ -80,7 +109,12 @@ fun AllCities(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable(onClick = {
-                                    onCitySelected(cityName.lowercase())
+                                    selectedCityMessage = cityName
+                                    onCitySelected(cityName)
+                                    scope.launch {
+                                        delay(1000)
+                                        selectedCityMessage = null
+                                    }
                                 })
                         )
                     }
